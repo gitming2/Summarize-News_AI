@@ -1,26 +1,17 @@
-# streamlit 배포
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-
 import streamlit as st
 from datasets import load_dataset
 import chromadb
 from openai import OpenAI
-# from dotenv import load_dotenv
 import os
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
 from chromadb.utils import embedding_functions
 
-# # 환경변수 불러오기
+# 환경변수 불러오기
 try:
-  # load_dotenv() 
-  # api_key = os.getenv("SOLAR_API_KEY")
-  
   # 해당 코드는 streamlit secrets 사용 시 활성화
-  api_key = os.environ["SOLAR_API_KEY"] = st.secrets["SOLAR_API_KEY"]
+  api_key = st.secrets["SOLAR_API_KEY"]
 
   OpenAI_client = OpenAI(
       api_key=api_key,
@@ -339,7 +330,7 @@ def display_most_common_category():
   if collection.count() == 0:
       st.warning("분석할 데이터가 없습니다. 먼저 데이터 처리를 실행해주세요.")
       return
-  
+    
   # 중복 제거한 카테고리 리스트
   set_categories = list(set(metadata["category"] for metadata in all_summary_data["metadatas"]))
   # 그냥 카테코리 모아 놓은 리스트
